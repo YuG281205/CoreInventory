@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Locations - CoreInventory</title>
+
+<style>
+
+/* Page Background */
+
+body{
+margin:0;
+padding:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+
+/* Page Heading */
+
+h1{
+text-align:center;
+color:white;
+margin-top:40px;
+font-size:32px;
+}
+
+
+/* Table Styling */
+
+table{
+border-collapse:collapse;
+width:60%;
+margin:40px auto;
+background:white;
+border-radius:8px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+
+/* Table Header */
+
+th{
+background:#667eea;
+color:white;
+padding:12px;
+font-size:16px;
+}
+
+
+/* Table Cells */
+
+td{
+padding:10px;
+border-bottom:1px solid #ddd;
+color:#333;
+}
+
+
+/* Alternate Row Color */
+
+tr:nth-child(even){
+background:#f9f9f9;
+}
+
+
+/* Hover Effect */
+
+tr:hover{
+background:#eef1ff;
+transition:0.3s;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Location List</h1>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>State</th>
+<th>Pincode</th>
+</tr>
+
+{% for loc in locations %}
+<tr>
+<td>{{ loc.id }}</td>
+<td>{{ loc.district }}</td>
+<td>{{ loc.state }}</td>
+<td>{{ loc.pincode }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Verify OTP</title>
+<link rel="stylesheet" type="text/css" href="{% static 'CoreInventoryApp/users/css/verity_otp.css' %}">
+</head>
+
+<body>
+
+<h2>Email Verification</h2>
+
+{% csrf_token %}
+
+<input type="email" id="email" placeholder="Enter your email" required>
+<br><br>
+
+<input type="text" id="otp" placeholder="Enter OTP" maxlength="6" required>
+<br><br>
+
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<p id="message"></p>
+
+<script>
+
+// function to get CSRF token from cookies
+function getCookie(name) {
+let cookieValue = null;
+
+if (document.cookie && document.cookie !== "") {
+const cookies = document.cookie.split(";");
+
+for (let i = 0; i < cookies.length; i++) {
+const cookie = cookies[i].trim();
+
+if (cookie.substring(0, name.length + 1) === (name + "=")) {
+cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+break;
+}
+}
+}
+
+return cookieValue;
+}
+
+const csrftoken = getCookie("csrftoken");
+
+
+// Auto-fill email from URL
+const params = new URLSearchParams(window.location.search);
+const email = params.get("email");
+
+if(email){
+document.getElementById("email").value = email;
+}
+
+
+function verifyOTP(){
+
+fetch("http://127.0.0.1:8000/api/verify-otp/",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"X-CSRFToken": csrftoken
+},
+
+body:JSON.stringify({
+
+email:document.getElementById("email").value,
+otp:document.getElementById("otp").value
+
+})
+
+})
+
+.then(response => response.json())
+
+.then(data => {
+
+document.getElementById("message").innerText = JSON.stringify(data);
+
+// redirect to login page after successful verification
+if(data.message){
+
+setTimeout(function(){
+
+window.location.href = "/api/login-page/";
+
+},1500);
+
+}
+
+})
+
+}
+
+</script>
+
+</body>
+</html>

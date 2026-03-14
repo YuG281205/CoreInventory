@@ -1,0 +1,84 @@
+
+
+/* Page styling */
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+
+    /* gradient background */
+    background: linear-gradient(135deg, #667eea, #764ba2);
+
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Signup form card */
+form{
+    background: white;
+    padding: 30px;
+    width: 320px;
+
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+
+    text-align: center;
+}
+
+/* Heading */
+h2{
+    color: white;
+    position: absolute;
+    top: 120px;
+}
+
+/* Input fields */
+input, select{
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    font-size: 14px;
+}
+
+/* Input focus effect */
+input:focus, select:focus{
+    border-color: #667eea;
+    outline: none;
+}
+
+/* Signup button */
+button{
+    width: 100%;
+    padding: 10px;
+
+    background: #667eea;
+    color: white;
+
+    border: none;
+    border-radius: 5px;
+
+    font-size: 16px;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+/* Button hover */
+button:hover{
+    background: #5a67d8;
+}
+
+/* Message text */
+#message{
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    color: white;
+}
+

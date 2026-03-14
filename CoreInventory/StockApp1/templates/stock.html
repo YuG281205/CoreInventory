@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock List - CoreInventory</title>
+
+    <style>
+
+        /* Page Background */
+        body{
+            margin:0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg,#1f4037,#99f2c8);
+            min-height:100vh;
+        }
+
+        /* Page Title */
+        h1{
+            text-align:center;
+            color:white;
+            margin-top:40px;
+            letter-spacing:1px;
+        }
+
+        /* Table Container (Card Style) */
+        .table-container{
+            width:75%;
+            margin:40px auto;
+            background:white;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Table Styling */
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+            background:#2c7be5;
+            color:white;
+            padding:12px;
+            font-size:16px;
+        }
+
+        td{
+            padding:10px;
+            border-bottom:1px solid #eee;
+            font-size:15px;
+        }
+
+        /* Zebra Row Effect */
+        tr:nth-child(even){
+            background:#f9f9f9;
+        }
+
+        /* Hover Effect */
+        tr:hover{
+            background:#e6f0ff;
+            transition:0.3s;
+        }
+
+        /* Responsive */
+        @media(max-width:768px){
+            .table-container{
+                width:95%;
+            }
+
+            th,td{
+                font-size:13px;
+                padding:8px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>📦 CoreInventory - Stock List</h1>
+
+<div class="table-container">
+
+<table>
+
+    <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Per Unit Cost</th>
+        <th>On Hand</th>
+        <th>Free to Use</th>
+    </tr>
+
+    {% for stock in stocks %}
+    <tr>
+        <td>{{ stock.id }}</td>
+        <td>{{ stock.product }}</td>
+        <td>₹ {{ stock.per_unit_cost }}</td>
+        <td>{{ stock.on_hand }}</td>
+        <td>{{ stock.free_to_use }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

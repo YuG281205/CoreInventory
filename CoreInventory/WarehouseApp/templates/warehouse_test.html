@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Warehouse API Test</title>
+</head>
+
+<body>
+
+<h2>Warehouse Management Test</h2>
+
+<h3>Add Warehouse</h3>
+
+<form id="warehouseForm">
+    <label>Warehouse Name:</label><br>
+    <input type="text" id="w_name" required><br><br>
+
+```
+
+<label>Location ID (City ID from Location table):</label><br>
+<input type="number" id="location" required><br><br>
+
+<button type="submit">Add Warehouse</button>
+```
+
+</form>
+
+<br><br>
+
+<h3>Warehouse List</h3>
+
+<button onclick="loadWarehouses()">Refresh Warehouses</button>
+
+<table border="1" cellpadding="10" id="warehouseTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Area</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Pincode</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+```
+<tbody></tbody>
+```
+
+</table>
+
+<script>
+
+const API_URL = "http://127.0.0.1:8000/api/warehouses/";
+
+
+function loadWarehouses() {
+
+    fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+
+        const tableBody = document.querySelector("#warehouseTable tbody");
+        tableBody.innerHTML = "";
+
+        data.forEach(w => {
+
+            const row = `
+            <tr>
+                <td>${w.w_id}</td>
+                <td>${w.w_name}</td>
+                <td>${w.w_location}</td>
+                <td>${w.location_details?.name || ""}</td>
+                <td>${w.location_details?.state || ""}</td>
+                <td>${w.location_details?.pincode || ""}</td>
+                <td>
+                    <button onclick="deleteWarehouse(${w.w_id})">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            `;
+
+            tableBody.innerHTML += row;
+        });
+
+    });
+}
+
+
+
+document.getElementById("warehouseForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const data = {
+
+        w_name: document.getElementById("w_name").value,
+        w_location: document.getElementById("w_location").value,
+        location: document.getElementById("location").value
+    };
+
+    fetch(API_URL, {
+
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+
+    })
+    .then(res => res.json())
+    .then(() => {
+
+        alert("Warehouse Added");
+        loadWarehouses();
+
+    });
+
+});
+
+
+
+function deleteWarehouse(id) {
+
+    fetch(API_URL + id + "/", {
+
+        method: "DELETE"
+
+    })
+    .then(() => {
+
+        alert("Warehouse Deleted");
+        loadWarehouses();
+
+    });
+
+}
+
+
+loadWarehouses();
+
+</script>
+
+</body>
+</html>

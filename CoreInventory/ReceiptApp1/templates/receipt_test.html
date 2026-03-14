@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Receipt API Test</title>
+</head>
+
+<body>
+
+<h2>Receipt Management Test</h2>
+
+<h3>Add Receipt</h3>
+
+<form id="receiptForm">
+
+<label>Warehouse Reference ID:</label><br> <input type="number" id="reference" required><br><br>
+
+<label>From:</label><br> <input type="text" id="from_location" required><br><br>
+
+<label>To:</label><br> <input type="text" id="to_location" required><br><br>
+
+<label>Contact:</label><br> <input type="text" id="contact" required><br><br>
+
+<label>Schedule Date:</label><br> <input type="date" id="schedule_date" required><br><br>
+
+<label>Status:</label><br> <select id="status">
+
+<option value="ready">Ready</option>
+<option value="in-progress">In Progress</option>
+</select>
+
+<br><br>
+
+<button type="submit">Add Receipt</button>
+
+</form>
+
+<br><br>
+
+<h3>Receipt List</h3>
+
+<button onclick="loadReceipts()">Refresh Receipts</button>
+
+<table border="1" cellpadding="10" id="receiptTable">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Warehouse</th>
+<th>From</th>
+<th>To</th>
+<th>Contact</th>
+<th>Date</th>
+<th>Status</th>
+<th>Delete</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+<script>
+
+const API_URL = "http://127.0.0.1:8000/receipts/api/receipts/";
+
+function loadReceipts() {
+
+fetch(API_URL)
+.then(res => res.json())
+.then(data => {
+
+const tableBody = document.querySelector("#receiptTable tbody");
+tableBody.innerHTML = "";
+
+data.forEach(r => {
+
+const row = `
+<tr>
+<td>${r.id}</td>
+<td>${r.warehouse_name}</td>
+<td>${r.from_location}</td>
+<td>${r.to_location}</td>
+<td>${r.contact}</td>
+<td>${r.schedule_date}</td>
+<td>${r.status}</td>
+<td>
+<button onclick="deleteReceipt(${r.id})">Delete</button>
+</td>
+</tr>
+`;
+
+tableBody.innerHTML += row;
+
+});
+
+});
+
+}
+
+document.getElementById("receiptForm").addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const data = {
+
+reference: document.getElementById("reference").value,
+from_location: document.getElementById("from_location").value,
+to_location: document.getElementById("to_location").value,
+contact: document.getElementById("contact").value,
+schedule_date: document.getElementById("schedule_date").value,
+status: document.getElementById("status").value
+
+};
+
+fetch(API_URL, {
+
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(data)
+
+})
+.then(res => res.json())
+.then(() => {
+
+alert("Receipt Added");
+loadReceipts();
+
+});
+
+});
+
+function deleteReceipt(id) {
+
+fetch(API_URL + id + "/", {
+
+method: "DELETE"
+
+})
+.then(() => {
+
+alert("Receipt Deleted");
+loadReceipts();
+
+});
+
+}
+
+loadReceipts();
+
+</script>
+
+</body>
+</html>
